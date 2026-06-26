@@ -38,12 +38,22 @@
           </button>
         </div>
 
-        <output class="timer-display" id="timer-display" aria-live="polite">
-          25:00
-        </output>
-
-        <div class="progress" aria-hidden="true">
-          <span class="progress-bar" id="progress-bar"></span>
+        <div
+          class="timer-progress"
+          role="img"
+          aria-label="Timer progress indicator">
+          <svg class="progress-ring" viewBox="0 0 200 200" aria-hidden="true">
+            <circle class="progress-ring-track" cx="100" cy="100" r="88" />
+            <circle
+              class="progress-ring-bar"
+              id="progress-bar"
+              cx="100"
+              cy="100"
+              r="88" />
+          </svg>
+          <output class="timer-display" id="timer-display" aria-live="polite">
+            25:00
+          </output>
         </div>
 
         <p class="status" id="timer-status">Ready to focus</p>

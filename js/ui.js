@@ -23,8 +23,14 @@ export class UI {
   }
 
   renderProgress(progress) {
-    const percentage = Math.round(progress * 100);
-    this.progressElement.style.width = `${percentage}%`;
+    const normalizedProgress = Math.min(Math.max(progress, 0), 1);
+    const radius = this.progressElement.r.baseVal.value;
+    const circumference = 2 * Math.PI * radius;
+
+    this.progressElement.style.strokeDasharray = `${circumference}`;
+    this.progressElement.style.strokeDashoffset = `${
+      circumference * (1 - normalizedProgress)
+    }`;
   }
 
   renderStatus(message) {

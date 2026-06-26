@@ -66,16 +66,6 @@ h1 {
   line-height: 0.95;
 }
 
-.timer-display {
-  display: block;
-  width: 100%;
-  font-variant-numeric: tabular-nums;
-  color: var(--text);
-  font-size: 6.5rem;
-  font-weight: 800;
-  line-height: 1;
-}
-
 .modes {
   display: grid;
   width: min(100%, 360px);
@@ -110,21 +100,48 @@ h1 {
   opacity: 0.55;
 }
 
-.progress {
-  width: min(100%, 300px);
-  height: 10px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgb(29 37 39 / 10%);
+.timer-progress {
+  position: relative;
+  display: grid;
+  width: min(100%, 280px);
+  aspect-ratio: 1;
+  place-items: center;
 }
 
-.progress-bar {
-  display: block;
-  width: 0;
+.progress-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
   height: 100%;
-  border-radius: inherit;
-  background: var(--accent);
-  transition: width 180ms ease;
+  transform: rotate(-90deg);
+}
+
+.progress-ring-track,
+.progress-ring-bar {
+  fill: none;
+  stroke-width: 12;
+}
+
+.progress-ring-track {
+  stroke: rgb(29 37 39 / 10%);
+}
+
+.progress-ring-bar {
+  stroke: var(--accent);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 180ms ease;
+}
+
+.timer-display {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  font-size: 4.8rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .status {
@@ -189,7 +206,7 @@ h1 {
   }
 
   .timer-display {
-    font-size: 4.8rem;
+    font-size: 3.9rem;
   }
 
   .modes {
