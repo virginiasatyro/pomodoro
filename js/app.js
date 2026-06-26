@@ -24,9 +24,12 @@ const MODES = {
   },
 };
 
+const DEFAULT_MODE = "pomodoro";
+const STORAGE_KEY = "pomodoro-state";
+
 class PomodoroApp {
   constructor() {
-    this.storage = new Storage("pomodoro-state");
+    this.storage = new Storage(STORAGE_KEY);
     this.sound = new Sound();
     this.savedState = this.storage.load();
     this.activeMode = this.getInitialMode();
@@ -41,7 +44,7 @@ class PomodoroApp {
     });
     this.timer = new Timer({
       minutes: MODES[this.activeMode].minutes,
-      remainingSeconds: this.savedState?.remainingSeconds,
+      remainingSeconds: this.getInitialRemainingSeconds(),
       onTick: () => this.render(),
       onFinish: () => {
         this.sound.play();
@@ -56,8 +59,14 @@ class PomodoroApp {
     this.ui.bindPause(() => this.pause());
     this.ui.bindReset(() => this.reset());
     this.ui.bindModeChange((mode) => this.changeMode(mode));
-    this.ui.renderStatus(MODES[this.activeMode].readyMessage);
+    window.addEventListener("beforeunload", () => this.saveState());
+
+    this.ui.renderStatus(this.getInitialStatus());
     this.render();
+
+    if (this.shouldResumeTimer()) {
+      this.start();
+    }
   }
 
   start() {
@@ -99,9 +108,14 @@ class PomodoroApp {
       canReset: this.timer.getRemainingSeconds() < this.timer.getInitialSeconds(),
     });
 
+    this.saveState();
+  }
+
+  saveState() {
     this.storage.save({
       mode: this.activeMode,
       remainingSeconds: this.timer.getRemainingSeconds(),
+      isRunning: this.timer.isRunning(),
       updatedAt: new Date().toISOString(),
     });
   }
@@ -113,7 +127,51 @@ class PomodoroApp {
       return savedMode;
     }
 
-    return "pomodoro";
+    return DEFAULT_MODE;
+  }
+
+  getInitialRemainingSeconds() {
+    const remainingSeconds = this.savedState?.remainingSeconds;
+
+    if (!Number.isInteger(remainingSeconds)) {
+      return null;
+    }
+
+    if (!this.savedState?.isRunning) {
+      return remainingSeconds;
+    }
+
+    return Math.max(remainingSeconds - this.getElapsedSeconds(), 0);
+  }
+
+  getElapsedSeconds() {
+    const updatedAt = Date.parse(this.savedState?.updatedAt);
+
+    if (Number.isNaN(updatedAt)) {
+      return 0;
+    }
+
+    return Math.floor((Date.now() - updatedAt) / 1000);
+  }
+
+  getInitialStatus() {
+    if (this.timer.isFinished()) {
+      return "Session finished";
+    }
+
+    if (this.savedState?.isRunning) {
+      return MODES[this.activeMode].runningMessage;
+    }
+
+    if (this.timer.getRemainingSeconds() < this.timer.getInitialSeconds()) {
+      return "Paused";
+    }
+
+    return MODES[this.activeMode].readyMessage;
+  }
+
+  shouldResumeTimer() {
+    return Boolean(this.savedState?.isRunning) && !this.timer.isFinished();
   }
 }
 

@@ -4,11 +4,21 @@ export class Storage {
   }
 
   save(value) {
-    window.localStorage.setItem(this.key, JSON.stringify(value));
+    try {
+      window.localStorage.setItem(this.key, JSON.stringify(value));
+    } catch {
+      // Storage can fail in private mode or when the quota is full.
+    }
   }
 
   load() {
-    const storedValue = window.localStorage.getItem(this.key);
+    let storedValue = null;
+
+    try {
+      storedValue = window.localStorage.getItem(this.key);
+    } catch {
+      return null;
+    }
 
     if (!storedValue) {
       return null;
@@ -23,6 +33,10 @@ export class Storage {
   }
 
   clear() {
-    window.localStorage.removeItem(this.key);
+    try {
+      window.localStorage.removeItem(this.key);
+    } catch {
+      // Keep the app usable even when storage is unavailable.
+    }
   }
 }
