@@ -1,0 +1,164 @@
+:root {
+  color-scheme: light;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --background: #f6f7fb;
+  --surface: #ffffff;
+  --text: #1d2527;
+  --muted: #667275;
+  --accent: #d9493f;
+  --accent-strong: #b72f28;
+  --accent-soft: #f2d0c8;
+  --border: rgb(29 37 39 / 10%);
+  --shadow: 0 18px 45px rgb(62 50 39 / 14%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+}
+
+.app {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.timer-panel {
+  display: grid;
+  width: min(100%, 420px);
+  min-height: 360px;
+  align-content: center;
+  justify-items: center;
+  gap: 18px;
+  padding: 40px 28px;
+  border: 1px solid rgb(29 37 39 / 8%);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.session-label {
+  margin: 0;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.75rem;
+  line-height: 0.95;
+}
+
+.timer-display {
+  display: block;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  font-size: 6.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.progress {
+  width: min(100%, 300px);
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(29 37 39 / 10%);
+}
+
+.progress-bar {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 180ms ease;
+}
+
+.status {
+  min-height: 1.4em;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.controls {
+  display: grid;
+  width: min(100%, 320px);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.button {
+  min-height: 46px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.button-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.button:hover:not(:disabled) {
+  border-color: var(--accent-strong);
+}
+
+.button-primary:hover:not(:disabled) {
+  background: var(--accent-strong);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (max-width: 420px) {
+  .app {
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .timer-panel {
+    min-height: calc(100vh - 32px);
+    padding: 32px 20px;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+  }
+
+  .timer-display {
+    font-size: 4.8rem;
+  }
+
+  .controls {
+    grid-template-columns: 1fr;
+  }
+}
