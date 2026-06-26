@@ -37,6 +37,15 @@ export class Timer {
     this.onTick(this);
   }
 
+  setDuration(minutes, remainingSeconds = null) {
+    this.pause();
+    this.initialSeconds = Math.max(1, minutes) * 60;
+    this.remainingSeconds = Number.isInteger(remainingSeconds)
+      ? Math.min(Math.max(remainingSeconds, 0), this.initialSeconds)
+      : this.initialSeconds;
+    this.onTick(this);
+  }
+
   tick() {
     if (this.isFinished()) {
       this.pause();
@@ -65,6 +74,10 @@ export class Timer {
 
   getRemainingSeconds() {
     return this.remainingSeconds;
+  }
+
+  getInitialSeconds() {
+    return this.initialSeconds;
   }
 
   getProgress() {

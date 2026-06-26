@@ -14,6 +14,30 @@
         <p class="session-label">Foco</p>
         <h1 id="app-title">Pomodoro Timer</h1>
 
+        <div class="modes" aria-label="Timer modes">
+          <button
+            class="mode-button active"
+            id="pomodoro-mode"
+            type="button"
+            data-mode="pomodoro">
+            Pomodoro
+          </button>
+          <button
+            class="mode-button"
+            id="short-break-mode"
+            type="button"
+            data-mode="shortBreak">
+            Short Break
+          </button>
+          <button
+            class="mode-button"
+            id="long-break-mode"
+            type="button"
+            data-mode="longBreak">
+            Long Break
+          </button>
+        </div>
+
         <output class="timer-display" id="timer-display" aria-live="polite">
           25:00
         </output>
@@ -22,9 +46,9 @@
           <span class="progress-bar" id="progress-bar"></span>
         </div>
 
-        <p class="status" id="timer-status">Pronto para iniciar</p>
+        <p class="status" id="timer-status">Ready to focus</p>
 
-        <div class="controls" aria-label="Controles do cronometro">
+        <div class="controls" aria-label="Timer controls">
           <button class="button button-primary" id="start-button" type="button">
             Start
           </button>

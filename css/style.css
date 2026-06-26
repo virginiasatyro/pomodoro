@@ -76,6 +76,40 @@ h1 {
   line-height: 1;
 }
 
+.modes {
+  display: grid;
+  width: min(100%, 360px);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f0f3f5;
+}
+
+.mode-button {
+  min-height: 38px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.mode-button.active {
+  background: var(--surface);
+  color: var(--accent);
+  box-shadow: 0 1px 4px rgb(29 37 39 / 10%);
+}
+
+.mode-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .progress {
   width: min(100%, 300px);
   height: 10px;
@@ -156,6 +190,10 @@ h1 {
 
   .timer-display {
     font-size: 4.8rem;
+  }
+
+  .modes {
+    grid-template-columns: 1fr;
   }
 
   .controls {
